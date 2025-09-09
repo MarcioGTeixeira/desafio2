@@ -1,61 +1,33 @@
 package com.devsuperior.evento.entities;
+
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
-@Table(name ="tb_participante")
-    public class Participante {
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long id;
-        private String nome;
+@Table(name = "tb_participante")
+public class Participante {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-        @Column(unique = true)
-        private String email;
+    private String nome;
+    private String email;
 
-        @ManyToOne
-        @JoinColumn(name = "atividade_id")
-        private Atividade atividade;
+    @ManyToMany
+    @JoinTable(
+            name = "participante_atividade",
+            joinColumns = @JoinColumn(name = "participante_id"),
+            inverseJoinColumns = @JoinColumn(name = "atividade_id")
+    )
+    private List<Atividade> atividades = new ArrayList<>();
 
-    public Participante() {
-    }
-
-    public Participante(Long id, String nome, String email, Atividade atividade) {
-        this.id = id;
+    public Participante() {}
+    public Participante(String nome, String email) {
         this.nome = nome;
         this.email = email;
-        this.atividade = atividade;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Atividade getAtividade() {
-        return atividade;
-    }
-
-    public void setAtividade(Atividade atividade) {
-        this.atividade = atividade;
-    }
+    // Getters e Setters
 }
-
